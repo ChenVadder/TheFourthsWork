@@ -24,20 +24,36 @@ class IndexPage extends StatelessWidget {
   ];
 //右侧按钮
   static const RKeys = ["/", "*", "-", "+", "="];
+
+  IndexPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("计算器", style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
+        title: const Text(
+          "φ(>ω<*) 计算器",
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: "HYZZSDX", //自定义字体1
+            fontSize: 25,
+          ),
+        ),
+        backgroundColor: Colors.blue,
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            const Expanded(child: Center(child: Text("显示区域"))),
+            const Expanded(
+                child: Center(
+                    child: Text("(｀・ω・´)开始计算吧",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "HYZZZQPK", //自定义字体2
+                          fontSize: 25,
+                        )))),
             Center(child: _buildButtons())
           ],
         ),

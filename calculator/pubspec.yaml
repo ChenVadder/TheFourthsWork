@@ -55,8 +55,17 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  #加入了自定义字体
   uses-material-design: true
-
+  fonts:
+    - family: HYZZSDX
+      fonts:
+        - asset: fonts/hyzzsdx.ttf
+          style: italic
+    - family: HYZZZQPK
+      fonts:
+        - asset: fonts/hyzzqpk.ttf
+          style: italic
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -86,4 +95,4 @@ flutter:
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/custom-fonts/#from-packages  
