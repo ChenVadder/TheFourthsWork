@@ -50,7 +50,7 @@ class IndexPage extends StatelessWidget {
                 child: Center(
                     child: Text("(｀・ω・´)开始计算吧",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontFamily: "HYZZZQPK", //自定义字体2
                           fontSize: 25,
                         )))),
