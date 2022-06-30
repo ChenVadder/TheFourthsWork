@@ -11,7 +11,7 @@ class Cal {
   List<double> _s3 = [];
 
   static const NKeys = [
-    "9", "8", "7", //,
+    "9", "8", "7", //
     "6", "5", "4", //
     "3", "2", "1", //
     "0", ".", //
@@ -24,9 +24,9 @@ class Cal {
     "?",
   ];
 
-  static const RKeysMap = {"/": 2, "*": 2, "-": 1, "+": 1};
+  static const RKeysMap = <String, int>{"/": 2, "*": 2, "-": 1, "+": 1};
 
-  List<String> _keys = [];
+  List<String> _keys = []; //用户输入的数据或运算符
 
 //右侧按钮
   static const RKeys = ["/", "*", "-", "+"];
@@ -39,7 +39,7 @@ class Cal {
         case "C":
           _s1 = [];
           _s2 = [];
-          _s3 = [];
+          _s3 = []; //删除
           _curnum = "";
           _output = "";
           _keys = [];
@@ -90,10 +90,15 @@ class Cal {
         // 当前运算符优先级 小于或等于 _s2最末尾的运算符的优先级，
         // 我需要将s2的运算符依次从末尾取出，放入_s1
         String lastkey = _s2[_s2.length - 1];
-        if (RKeysMap[key] <= RKeysMap[lastkey]) {
-          while (_s2.length > 0 &&
-              RKeysMap[key] <= RKeysMap[_s2[_s2.length - 1]]) {
-            _s1.add(_s2.removeLast());
+        var num1 = RKeysMap[key];
+        var num2 = RKeysMap[lastkey];
+        var num3 = RKeysMap[_s2[_s2.length - 1]];
+        if (num1 != null && num2 != null && num3 != null) {
+          if (num1 <= num2) {
+            while (_s2.length > 0 && num1 <= num3) {
+              _s1.add(_s2.removeLast());
+              num3 = RKeysMap[_s2[_s2.length - 1]];
+            }
           }
         }
         _s2.add(key);
