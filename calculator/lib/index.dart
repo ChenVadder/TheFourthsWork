@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:calculator/cal.dart';
 
-class IndexPage extends StatelessWidget {
+class IndexPage extends StatefulWidget {
+  static const Color PAGE_COLOR = Colors.black;
+
+  // 按钮
+  static const Color NUM_BTN_BG = Color(0xff323232);
+
+  //顶部按钮
+  static const Color TOP_BTN_BG = Color(0xFFa6a6a6);
+
+  //右侧按钮
+  static const Color RIGHT_BTN_BG = Color(0xFFff9500);
+
   static const NKeys = [
     "C", "D", "?", "/", //
     "9", "8", "7", "*", //,
@@ -15,7 +27,7 @@ class IndexPage extends StatelessWidget {
     "D",
     "?",
   ];
-  //中部按钮
+//中部按钮
   static const MKeys = [
     "9", "8", "7", //,
     "6", "5", "4", //
@@ -25,7 +37,24 @@ class IndexPage extends StatelessWidget {
 //右侧按钮
   static const RKeys = ["/", "*", "-", "+", "="];
 
-  IndexPage({Key? key}) : super(key: key);
+  @override
+  IndexPageState createState() {
+    return new IndexPageState();
+  }
+}
+
+class IndexPageState extends State<IndexPage> {
+  String _num = "";
+
+  Cal _cal = new Cal();
+
+  void clickKey(String key) {
+    _cal.addKey(key);
+    setState(() {
+      _num = _cal.OutPut;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,82 +75,91 @@ class IndexPage extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            const Expanded(
-                child: Center(
-                    child: Text("(｀・ω・´)开始计算吧",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: "HYZZZQPK", //自定义字体2
-                          fontSize: 25,
-                        )))),
-            Center(child: _buildButtons())
+            Expanded(
+                child: SingleChildScrollView(
+                    reverse: true,
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Text("$_num",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 32.0,
+                                )))))),
+            Center(child: _buildButtons()),
           ],
         ),
       ),
     );
   }
-}
 
-Widget buildButton(String num, {int flex = 1}) {
-  return Expanded(
-      flex: flex,
-      child: MaterialButton(
-        padding: const EdgeInsets.all(20.0),
-        child: Text(
-          num,
-          textScaleFactor: IndexPage.RKeys.contains(num) ? 2.5 : 1.5,
-        ),
-        shape: flex > 1
-            ? RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(1000.0),
-              )
-            : const CircleBorder(),
-        minWidth: flex > 1 ? 50 : 50,
-        height: flex > 1 ? 80 : 95,
-        textColor: IndexPage.MKeys.contains(num) ? Colors.white : Colors.blue,
-        //highlightColor: Colors.yellow,
-        color: IndexPage.TKeys.contains(num)
-            ? Colors.white
-            : IndexPage.RKeys.contains(num)
-                ? Colors.orange // IndexPage.RIGHT_BTN_BG
-                : const Color.fromARGB(255, 49, 49, 49), //IndexPage.NUM_BTN_BG,
-        splashColor: Colors.grey,
-        elevation: 10.0,
-        highlightElevation: 20.0,
-        onPressed: () {}, //TODO
-      ));
-}
+  Widget buildButton(String num, {int flex = 1}) {
+    return Expanded(
+        flex: flex,
+        child: MaterialButton(
+          onPressed: () {
+            clickKey(num);
+          },
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            num,
+            textScaleFactor: IndexPage.RKeys.contains(num) ? 2.5 : 1.5,
+          ),
+          shape: flex > 1
+              ? RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(1000.0),
+                )
+              : const CircleBorder(),
+          minWidth: flex > 1 ? 50 : 50,
+          height: flex > 1 ? 80 : 95,
+          textColor: IndexPage.MKeys.contains(num) ? Colors.white : Colors.blue,
+          //highlightColor: Colors.yellow,
+          color: IndexPage.TKeys.contains(num)
+              ? Colors.white
+              : IndexPage.RKeys.contains(num)
+                  ? Colors.orange // IndexPage.RIGHT_BTN_BG
+                  : const Color.fromARGB(
+                      255, 49, 49, 49), //IndexPage.NUM_BTN_BG,
+          splashColor: Colors.grey,
+          elevation: 10.0,
+          highlightElevation: 20.0,
+          //TODO
+        ));
+  }
 
-Widget _buildButtons() {
-  List<Widget> rows = [];
-  List<Widget> btns = [];
-  int flex = 1;
-  for (int i = 0; i < IndexPage.NKeys.length; i++) {
-    String key = IndexPage.NKeys[i];
-    if (key.isEmpty) {
-      flex++;
-      continue;
-    } else {
-      Widget b = buildButton(key, flex: flex);
-      btns.add(b);
-      flex = 1;
+  Widget _buildButtons() {
+    List<Widget> rows = [];
+    List<Widget> btns = [];
+    int flex = 1;
+    for (int i = 0; i < IndexPage.NKeys.length; i++) {
+      String key = IndexPage.NKeys[i];
+      if (key.isEmpty) {
+        flex++;
+        continue;
+      } else {
+        Widget b = buildButton(key, flex: flex);
+        btns.add(b);
+        flex = 1;
+      }
+
+      if ((i + 1) % 4 == 0) {
+        rows.add(Row(
+          children: btns,
+        ));
+        btns = [];
+      }
     }
-
-    if ((i + 1) % 4 == 0) {
+    if (btns.isNotEmpty) {
       rows.add(Row(
         children: btns,
       ));
       btns = [];
     }
-  }
-  if (btns.isNotEmpty) {
-    rows.add(Row(
-      children: btns,
-    ));
-    btns = [];
-  }
 
-  return Column(
-    children: rows,
-  );
+    return Column(
+      children: rows,
+    );
+  }
 }
