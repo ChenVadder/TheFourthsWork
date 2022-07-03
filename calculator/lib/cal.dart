@@ -5,11 +5,13 @@ class Cal {
 
   double result = 0.0;
 
-  String get OutPut => this._output;
+  // ignore: non_constant_identifier_names
+  String get OutPut => _output;
 
   List<String> _s1 = [], _s2 = [];
   List<double> _s3 = [];
 
+  // ignore: constant_identifier_names
   static const NKeys = [
     "9", "8", "7", //
     "6", "5", "4", //
@@ -18,19 +20,23 @@ class Cal {
   ];
 
 //顶部按钮
+  // ignore: constant_identifier_names
   static const TKeys = [
     "C",
     "D",
     "?",
   ];
 
+  // ignore: constant_identifier_names
   static const RKeysMap = <String, int>{"/": 2, "*": 2, "-": 1, "+": 1};
 
   List<String> _keys = []; //用户输入的数据或运算符
 
 //右侧按钮
+  // ignore: constant_identifier_names
   static const RKeys = ["/", "*", "-", "+"];
 
+  // ignore: constant_identifier_names
   static const EQ = "=";
 
   void addKey(String key) {
@@ -50,7 +56,7 @@ class Cal {
       }
     }
     String prekey = "";
-    if (_keys.length > 0) {
+    if (_keys.isNotEmpty) {
       prekey = _keys[_keys.length - 1];
     }
     //1 +1 +2 +3
@@ -71,7 +77,7 @@ class Cal {
 
     //处理符号
     if (RKeys.contains(key)) {
-      if (_s1.length == 0) {
+      if (_s1.isEmpty) {
         String rs = result.toString();
         _output = rs;
         for (int i = 0; i < rs.length; i++) {
@@ -84,7 +90,7 @@ class Cal {
       }
       _keys.add(key);
       _output += key;
-      if (_s2.length == 0) {
+      if (_s2.isEmpty) {
         _s2.add(key);
       } else {
         // 当前运算符优先级 小于或等于 _s2最末尾的运算符的优先级，
